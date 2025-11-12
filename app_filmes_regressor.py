@@ -1,7 +1,3 @@
-# ===============================================
-# 🎬 SISTEMA DE RECOMENDAÇÃO DE FILMES (REGRESSÃO)
-# ===============================================
-
 import pandas as pd
 import numpy as np
 import re
@@ -11,9 +7,7 @@ from sklearn.metrics import r2_score, mean_absolute_error
 from sklearn.metrics.pairwise import cosine_similarity
 import streamlit as st
 
-# ===============================================
-# 🌗 CONFIGURAÇÃO DE TEMA (Modo Claro/Escuro)
-# ===============================================
+
 st.set_page_config(
     page_title="🎬 Sistema de Recomendação de Filmes",
     page_icon="🎥",
@@ -21,7 +15,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# CSS customizado
+
 st.markdown("""
     <style>
     :root {
@@ -40,7 +34,7 @@ st.markdown("""
 
 
 # ===============================================
-# 1. FUNÇÃO CACHEADA PARA CARREGAR E PREPARAR DADOS (Passos 1-5)
+# 1. FUNÇÃO CACHEADA PARA CARREGAR E PREPARAR DADOS 
 # ===============================================
 @st.cache_data
 def load_data(csv_path):
@@ -82,28 +76,30 @@ def load_data(csv_path):
     df[['main_genre', 'theme']] = df_original['Genero e Tematica'].astype(str).str.split(', ', expand=True).iloc[:, 0:2]
     df_original[['main_genre', 'theme']] = df_original['Genero e Tematica'].astype(str).str.split(', ', expand=True).iloc[:, 0:2]
 
-    # Passo 5: Limpar Colunas (REMOVEMOS 'country' e 'production_company' DAQUI)
+    # Passo 5: Limpar Colunas 
     cols = [
         'release_decade', 'duration_min', 'release_type', 'target_audience',
-        'director', 'main_genre', 'theme', 'original_language', # 'country' removido
-        'oscar_nominee', 'oscar_winner', 'rating', 'title' # 'production_company' removida
+        'director', 'main_genre', 'theme', 'original_language', 
+        'oscar_nominee', 'oscar_winner', 'rating', 'title' 
     ]
     df = df[cols].dropna()
 
-    # Limpar dados do df_original que será usado na UI
+    # Limpar dados do df_original que será usado na UI - precisamos mudar isso aqui 
     df_original['original_language'] = df_original['original_language'].astype(str).apply(lambda x: x.split(",")[0].strip())
     
     return df, df_original
 
 # ===============================================
-# 2. FUNÇÃO CACHEADA PARA TREINAR O MODELO (Passos 6-7)
+# 2. FUNÇÃO CACHEADA PARA TREINAR O MODELO 
 # ===============================================
+
+
 @st.cache_resource
 def train_model(df_clean):
-    # Passo 6: One-Hot Encoding (REMOVEMOS 'country' e 'production_company' DAQUI)
+    # Passo 6: One-Hot Encoding 
     colunas_categoricas = [
         'release_decade', 'release_type', 'target_audience', 'director', 
-        'main_genre', 'theme', 'original_language' # 'country' e 'production_company' removidas
+        'main_genre', 'theme', 'original_language' 
     ]
     df_encoded = pd.get_dummies(df_clean, columns=colunas_categoricas, drop_first=True)
 
@@ -114,9 +110,9 @@ def train_model(df_clean):
 
     model = RandomForestRegressor(
         random_state=42, 
-        n_estimators=500, # <-- Aumentamos de 100 para 200
-        max_depth=50,      # <-- Aumentamos de 10 para 15
-        n_jobs=-1          # Usa todos os núcleos de CPU
+        n_estimators=500, 
+        max_depth=50,      
+        n_jobs=-1         
     )
     model.fit(X_train, y_train)
 
@@ -128,15 +124,15 @@ def train_model(df_clean):
     return model, X, df_encoded, r2, mae
 
 # ===============================================
-# 3. CORPO PRINCIPAL DO SCRIPT
+# 3. CORPO PRINCIPAL
 # ===============================================
 
-# Chama as funções cacheadas (só rodam na primeira vez)
+# Chama as funções cacheadas 
 df_clean, df_original_ui = load_data('./Datasets para filmes - A3 - 9999 itens de Filmes.csv')
 model, X, df_encoded, r2, mae = train_model(df_clean)
 
 # ===============================================
-# 8. UI com Streamlit
+# 8. UI com Streamlit - ainda em desenvolvimento
 # ===============================================
 st.title("🎥 Sistema de Recomendação de Filmes")
 st.caption("Um recomendador de filmes inteligente, baseado em conteúdo, com Regressão 🌳")
@@ -178,7 +174,7 @@ duration = (dur_min + dur_max) / 2
 
 release_type = st.selectbox("Tipo de Lançamento", unique_options("release_type"))
 target_audience = st.selectbox("Público Alvo", unique_options("target_audience"))
-# Este selectbox funciona como uma busca com auto-complete
+# Este selectbox funciona como uma busca com auto-complete - ainda estamos desenvolvendo pra vê se fica melhor...
 director = st.selectbox("Diretor (digite para buscar)", ["(Qualquer)"] + unique_options("director"))
 genre = st.selectbox("🎭 Gênero Principal", unique_genres)
 theme = st.selectbox("🎯 Temática", unique_themes)
