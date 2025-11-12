@@ -128,7 +128,7 @@ def train_model(df_clean):
 # ===============================================
 
 # Chama as funções cacheadas 
-df_clean, df_original_ui = load_data('./Datasets para filmes - A3 - 9999 itens de Filmes.csv')
+df_clean, df_original_ui = load_data('./Datasets para filmes - A3 - Dataset - A3.csv')
 model, X, df_encoded, r2, mae = train_model(df_clean)
 
 # ===============================================
