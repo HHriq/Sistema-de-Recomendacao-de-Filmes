@@ -372,7 +372,7 @@ def exibir_formulario_inputs(df_movies):
         col1, col2 = st.columns(2)
         with col1: inputs["release"] = campo_misto("🚀 Tipo de Lançamento", df_movies["Lancamento"])
         with col2: inputs["premios"] = st.selectbox("🏆 Possui prêmios?",
-                                                    ["Talvez", "Sim", "Não"], index=0)
+                                                    ["Sim", "Não"], index=0)
         
         st.markdown("---", unsafe_allow_html=True) 
         inputs["buscar"] = st.button("🔍 Buscar recomendações")

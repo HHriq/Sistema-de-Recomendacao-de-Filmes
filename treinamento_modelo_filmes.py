@@ -9,20 +9,11 @@ import os
 
 
 # ======================================================
-# Função auxiliar: converter número de prêmios → Sim / Não / Talvez
+# NOVA FUNÇÃO: Converte número de prêmios → Sim / Não
 # ======================================================
 def converter_premios(valor):
-    try:
-        valor = int(valor)
-    except:
-        return "Talvez"
-
-    if valor == 0:
-        return "Não"
-    elif valor >= 1:
-        return "Sim"
-    else:
-        return "Talvez"
+    valor = int(valor)
+    return "Sim" if valor >= 1 else "Não"
     
 
 # ======================================================
