@@ -145,31 +145,9 @@ def treinar_modelo_recomendacao(
     return output_model_path
 
 
-def calcular_assertividade(model_data, K=5):
-
-    encoder = model_data["encoder"]
-    similarity_test = model_data["similarity_matrix_test"]
-    test_df = model_data["test_data"]
-
-    topk_similarities = []
-
-    for i in range(similarity_test.shape[0]):
-        sims = similarity_test[i]
-        top_k = np.sort(sims)[-K:]  # pega os K mais similares
-        topk_similarities.append(np.mean(top_k))
-
-    mean_similarity = np.mean(topk_similarities)
-
-    print("\n📊 ASSERTIVIDADE DO MODELO")
-    print(f"Mean Similarity@{K}: {mean_similarity:.4f}")
-    print(f"Percentual de assertividade aproximado: {mean_similarity * 100:.2f}%")
-
-    return mean_similarity
-
-# model_data = joblib.load("./modelo_recomendacao_ContentBased.joblib")
-# calcular_assertividade(model_data, K=5)
-
-
+# ======================================================
+# Execução direta
+# ======================================================
 if __name__ == "__main__":
     modelo_path = treinar_modelo_recomendacao("./dataset_tratado - Filmes.csv")
     print("\nModelo salvo em:", modelo_path)
