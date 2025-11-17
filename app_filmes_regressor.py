@@ -225,6 +225,15 @@ feature_weights = {
     "country": 0.8
 }
 
+def ajustar_pesos_por_input(user_dict, base_weights):
+    adjusted = {}
+    for feature, weight in base_weights.items():
+        if user_dict[feature] == "Outros":  
+            adjusted[feature] = 0  # não selecionado → não influencia
+        else:
+            adjusted[feature] = weight
+    return adjusted
+
 def aplicar_pesos(vetor, encoder, feature_weights):
     vetor = vetor.toarray()
     col_names = encoder.get_feature_names_out()
@@ -254,19 +263,22 @@ def calcular_assertividade(model_data, K=5):
 
 def recomendar_filmes(user_dict, top_n=10):
     """Gera recomendações com base no dicionário do usuário."""
-    # 1 — cria vetor do usuário
+     # 1 — Ajusta os pesos com base no input do usuário
+    pesos_dinamicos = ajustar_pesos_por_input(user_dict, feature_weights)
+
+    # 2 — Cria vetor do usuário com pesos
     user_df = pd.DataFrame([user_dict])
     user_vector = encoder.transform(user_df[features])
-    user_vector = aplicar_pesos(user_vector, encoder, feature_weights)
+    user_vector = aplicar_pesos(user_vector, encoder, pesos_dinamicos)
 
-    # 2 — cria vetor dos filmes
+    # 3 — Vetor dos filmes com os mesmos pesos
     movies_vectors = encoder.transform(movies_base[features])
-    movies_vectors = aplicar_pesos(movies_vectors, encoder, feature_weights)
+    movies_vectors = aplicar_pesos(movies_vectors, encoder, pesos_dinamicos)
 
-    # 3 — Similaridade de cosseno com pesos
+    # 4 — Similaridade de cosseno
     sims = cosine_similarity(user_vector, movies_vectors).flatten()
 
-    # 4 — Ranking
+    # 5 — Ranking
     top_idx = np.argsort(sims)[::-1][:top_n]
 
     return movies_base.iloc[top_idx], sims[top_idx]
