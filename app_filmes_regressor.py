@@ -354,25 +354,27 @@ def exibir_formulario_inputs(df_movies):
         st.write("Escolha as características do filme desejado e encontre sua próxima sessão!")
 
         col1, col2 = st.columns(2)
-        with col1: inputs["decade"] = campo_misto("📅 Década do Filme", df_movies["Decada do Filme"])
-        with col2: inputs["genre"] = campo_misto("🎭 Gênero", df_movies["Genero"])
-
-        col1, col2 = st.columns(2)
-        with col1: inputs["theme"] = campo_misto("💡 Tema", df_movies["Tematica"])
+        with col1: inputs["actor"] = campo_misto("⭐ Ator/Atriz", df_movies["Estrela"])
         with col2: inputs["director"] = campo_misto("🎬 Diretor", df_movies["Diretor"])
 
         col1, col2 = st.columns(2)
-        with col1: inputs["actor"] = campo_misto("⭐ Ator/Atriz", df_movies["Estrela"])
-        with col2: inputs["country"] = campo_misto("🌍 País de Origem", df_movies["Pais de Origem"])
+        with col2: inputs["genre"] = campo_misto("🎭 Gênero", df_movies["Genero"])
+        with col1: inputs["theme"] = campo_misto("💡 Tema", df_movies["Tematica"])
+        
+        col1, col2 = st.columns(2)
+        with col1: inputs["decade"] = campo_misto("📅 Década do Filme", df_movies["Decada do Filme"])
+        with col1: inputs["producer"] = campo_misto("🏢 Produtora", df_movies["Produtora"])
+        
 
         col1, col2 = st.columns(2)
-        with col1: inputs["producer"] = campo_misto("🏢 Produtora", df_movies["Produtora"])
+        with col2: inputs["premios"] = st.selectbox("🏆 Indicado ou ganhador de prêmios?",
+                                                    ["Sim", "Não"], index=0)
         with col2: inputs["age"] = campo_misto("🔞 Público Alvo", df_movies["Publico Alvo"])
 
         col1, col2 = st.columns(2)
+        with col2: inputs["country"] = campo_misto("🌍 País de Origem", df_movies["Pais de Origem"])
         with col1: inputs["release"] = campo_misto("🚀 Tipo de Lançamento", df_movies["Lancamento"])
-        with col2: inputs["premios"] = st.selectbox("🏆 Indicado ou ganhador de prêmios?",
-                                                    ["Sim", "Não"], index=0)
+
         
         st.markdown("---", unsafe_allow_html=True) 
         inputs["buscar"] = st.button("🔍 Buscar recomendações")
