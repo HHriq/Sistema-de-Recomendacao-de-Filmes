@@ -1,3 +1,5 @@
+# avaliacao_modelo.py
+
 import joblib
 import pandas as pd
 import numpy as np
@@ -6,29 +8,23 @@ import sys
 import textwrap
 
 MODEL_PATH = './modelo_recomendacao_ContentBased.joblib'
+NEW_SCORE_COLUMN = 'rating'
+n_recommendations = 10
 
 try:
     print("Carregando modelo e dados...")
-    model_data = joblib.load(MODEL_PATH)
+    dados_modelo = joblib.load(MODEL_PATH)
 except FileNotFoundError:
     print("ERRO: Arquivo de modelo não encontrado. Execute o treinamento primeiro.")
     sys.exit()
 
-train_df = model_data['train_data']
-encoder = model_data['encoder']
-features = model_data['features']
-NEW_SCORE_COLUMN = 'rating'
+train_df = dados_modelo['train_data']
+encoder = dados_modelo['encoder']
+features = dados_modelo['features']
 print("Transformando dados de treino para similaridade...")
 X_train = encoder.transform(train_df[features]) 
 
-fill_values = {
-    "genre": "Outros", "theme": "Outros", "main_actor": "Outros", 
-    "director": "Outros", "producer": "Outros", "country": "Outros", 
-    "age_rating": "Outros", "release_decade": "Outros", 
-    "release_type": "Outros", "premios": "Não" 
-}
-n_recommendations = 10
-
+# Perfis Sintéticos para Teste
 synthetic_profiles = [
     {"genre": "Thriller Psicológico", "theme": "Suspense / Mistério", "main_actor": "Charlize Theron", "director": "Luca Guadagnino", "producer": "Magnolia Pictures","country": "Estados Unidos", "age_rating": "Família", "release_decade": "2010", "release_type":"Cinema", "premios":"Sim"},
     {"genre": "Drama", "theme": "Comédia", "main_actor": "Michael Keaton", "director": "Bruno Barreto", "producer": "Dimension Films","country": "Coreia do Sul", "age_rating": "Jovens", "release_decade": "2020", "release_type":"Cinema", "premios":"Sim"},
@@ -52,11 +48,14 @@ synthetic_profiles = [
     {"genre": "Comédia Vulgar", "theme": "Ficção Científica", "main_actor": "Meryl Streep", "director": "Sam Raimi", "producer": "Disney Television Animation","country": "França", "age_rating": "Jovens", "release_decade": "2020", "release_type":"Cinema", "premios":"Nao"}
 ]
 
+
 def jaccard_coherence(profile_features_dict, recommended_film_row, feature_columns):
+    """Calcula o Coeficiente de Jaccard entre as features do perfil e do filme."""
     forced_features = set()
     for key, val in profile_features_dict.items():
         if val != 'Outros':
             if key == 'premios':
+                # 'premios' tem tratamento especial
                 if val == 'Sim' or val == 'Não':
                     forced_features.add(val)
             else:
@@ -74,6 +73,7 @@ def jaccard_coherence(profile_features_dict, recommended_film_row, feature_colum
     if not union:
         return 0.0
         
+    
     return len(intersection) / len(union)
 
 all_jaccard_scores = []

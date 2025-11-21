@@ -1,0 +1,143 @@
+:root {
+    --netflix-red: #E50914;
+    --netflix-black: #141414;
+    --netflix-dark-grey: #1f1f1f;
+    --netflix-white: #FFFFFF;
+    --text-grey: #B3B3B3;
+    --glow-yellow: #F5D50A;
+}
+
+body { 
+    background-image: radial-gradient(ellipse at center, #2a080a 0%, #141414 70%);
+    background-attachment: fixed;
+    background-size: cover;
+}
+[data-testid="stAppViewContainer"] {
+    background-image: radial-gradient(ellipse at center, #2a080a 0%, #141414 70%);
+    background-attachment: fixed;
+    background-size: cover;
+    color: var(--netflix-white);
+    background-color: transparent; 
+}
+
+[data-testid="stHeader"] {
+    background-color: transparent;
+}
+
+.capa-container {
+    background: linear-gradient(145deg, #1f1f1f, #141414);
+    border: 2px solid var(--netflix-red);
+    border-radius: 20px;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 0 50px rgba(229, 9, 20, 0.25);
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.capa-titulo {
+    font-family: 'Arial Black', sans-serif;
+    font-size: 3.5rem;
+    color: var(--netflix-red);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px #000;
+}
+.capa-subtitulo {
+    font-size: 1.4rem;
+    color: var(--netflix-white);
+    margin-bottom: 30px;
+    font-weight: 300;
+    border-bottom: 1px solid #333;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+.capa-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin-top: 20px;
+}
+.capa-item { font-size: 1.2rem; color: var(--text-grey); }
+.capa-label {
+    color: var(--netflix-white);
+    font-weight: bold;
+    font-size: 1.3rem;
+    display: block;
+    margin-bottom: 5px;
+}
+
+h1 { color: var(--netflix-red) !important; font-weight: bold; text-transform: uppercase; text-align: center; font-size: 2.5rem !important; }
+h3 { color: var(--netflix-white) !important; border-bottom: 2px solid var(--netflix-red); padding-bottom: 10px; font-size: 1.75rem !important; margin-bottom: 4rem !important; }
+
+/* Inputs */
+
+[data-testid="stSelectbox"] label { color: var(--text-grey) !important; font-size: 1.1rem !important; font-weight: bold; }
+[data-testid="stSelectbox"] div[data-baseweb="select"] > div { background-color: var(--netflix-dark-grey); border-color: #444; color: var(--netflix-white); }
+[data-testid="stSelectbox"] div[data-baseweb="select"] > div > div { color: var(--netflix-white) !important; }
+[data-baseweb="popover"] ul { background-color: var(--netflix-dark-grey); border-color: #555; }
+[data-baseweb="popover"] ul li:hover { background-color: var(--netflix-red); }
+
+.stButton>button {
+    background-color: var(--netflix-red);
+    color: var(--netflix-white);
+    border: none;
+    border-radius: 30px;
+    padding: 0.8rem 2rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+.stButton>button:hover {
+    background-color: #ff1f2b;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(229, 9, 20, 0.8);
+}
+
+/* Cards de Resultado */
+
+.movie-card {
+    background-color: var(--netflix-dark-grey);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem; 
+    border: 2px solid var(--glow-yellow);
+    box-shadow: 0 0 15px 3px rgba(245, 213, 10, 0.4);
+    transition: all 0.3s ease;
+    display: flex; flex-direction: column; height: 100%; min-height: 520px; 
+}
+.movie-card:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 0 25px 7px rgba(245, 213, 10, 0.6); }
+.movie-card-title { font-size: 1.4rem; font-weight: bold; color: var(--netflix-white); margin-bottom: 1rem; }
+.movie-card-content { font-size: 1.1rem; line-height: 1.7; color: var(--text-grey); flex-grow: 1; }
+.movie-card-content strong { color: var(--netflix-white); font-size: 1.1rem; }
+.movie-card-score { font-size: 1.1rem; font-weight: bold; color: var(--glow-yellow); margin-top: 1rem; text-align: right; }
+
+[data-testid="stSidebar"] {
+    background-color: var(--netflix-dark-grey);
+}
+.metric-card {
+    background-color: #1f1f1f;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #444;
+    text-align: center;
+    margin-top: 10px;
+}
+.metric-title {
+    color: #e559f9;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+.metric-value {
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0;
+}

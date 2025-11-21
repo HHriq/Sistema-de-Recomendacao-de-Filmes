@@ -7,18 +7,14 @@ from sklearn.metrics.pairwise import cosine_similarity
 import joblib
 import os
 
+# Função: Converte número de prêmios, Sim / Não.
 
-# ======================================================
-# NOVA FUNÇÃO: Converte número de prêmios → Sim / Não
-# ======================================================
 def converter_premios(valor):
     valor = int(valor)
     return "Sim" if valor >= 1 else "Não"
     
+# Função de Treinamento 
 
-# ======================================================
-# Função de Treinamento (Content-Based Puro)
-# ======================================================
 def treinar_modelo_recomendacao(
         dataset_path,
         output_model_path="./modelo_recomendacao_ContentBased.joblib"
@@ -27,9 +23,8 @@ def treinar_modelo_recomendacao(
     print("📂 Carregando dataset...")
     df = pd.read_csv(dataset_path)
 
-    # ======================================================
-    # 1. Renomear colunas para nomes padrão
-    # ======================================================
+    # 1. Renomear colunas para nomes padrão 
+    
     col_mapping = {
         "Nome do Filme": "title",
         "Ano de Lancamento": "release_year",
@@ -50,9 +45,8 @@ def treinar_modelo_recomendacao(
     }
     df.rename(columns=col_mapping, inplace=True)
 
-    # ======================================================
     # 2. Seleção de Features Relevantes
-    # ======================================================
+
     features = [
         "genre", "theme", "main_actor", "director", "producer",
         "country", "age_rating", "release_decade", "release_type", "premios"
@@ -60,9 +54,8 @@ def treinar_modelo_recomendacao(
 
     df = df.dropna(subset=["title"])
 
-    # ======================================================
     # 3. Tratar valores ausentes
-    # ======================================================
+
     fill_map = {
         "genre": "Outros",
         "theme": "Outros",
@@ -79,18 +72,14 @@ def treinar_modelo_recomendacao(
     df.fillna(fill_map, inplace=True)
     df["premios"] = df["premios"].apply(converter_premios)
 
-    # ======================================================
+    
     # 4. Separar treino e teste
-    # ======================================================
+
     train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
 
-    # ======================================================
     # 5. One-Hot Encoding das features categóricas
-    # ======================================================
-    categorical_cols = [
-        "genre", "theme", "main_actor", "director", "producer",
-        "country", "age_rating", "release_decade", "release_type", "premios"
-    ]
+
+    categorical_cols = features # Todas as features são categóricas após o tratamento
 
     encoder = ColumnTransformer(
         transformers=[
@@ -103,18 +92,16 @@ def treinar_modelo_recomendacao(
     X_train = encoder.fit_transform(train_df[features])
     X_test = encoder.transform(test_df[features])
 
-    # ======================================================
     # 6. Criar matriz de similaridade usando Cosine Similarity
-    # ======================================================
+
     print("📐 Calculando matriz de similaridade (train)...")
     similarity_matrix = cosine_similarity(X_train, X_train)
 
     print("📐 Calculando matriz de similaridade (test)...")
     similarity_matrix_test = cosine_similarity(X_test, X_train)
 
-    # ======================================================
     # 7. Salvar modelo e dados importantes
-    # ======================================================
+
     print("💾 Salvando modelo...")
 
     model_data = {
@@ -136,9 +123,9 @@ def treinar_modelo_recomendacao(
     return output_model_path
 
 
-# ======================================================
+
 # Execução direta
-# ======================================================
+
 if __name__ == "__main__":
     modelo_path = treinar_modelo_recomendacao("./dataset_tratado - Filmes.csv")
     print("\nModelo salvo em:", modelo_path)
