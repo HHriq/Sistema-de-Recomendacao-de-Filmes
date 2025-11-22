@@ -1,7 +1,10 @@
+
+<br>
+
 # 🎬 Sistema de Recomendação de Filmes - Projeto A3
 
 **Instituição:** Unifacs - Universidade Salvador  
-**Curso:** Inteligência Artificial  
+**UC:** Inteligência Artificial  
 **Professor:** Adailton de Jesus Cerqueira Junior  
 **Semestre:** 2025.2  
 
@@ -170,3 +173,6 @@ python avaliacaoModelo.py
 <br>
 
 ## © 2025 - Inteligência Artificial
+
+
+<br>
