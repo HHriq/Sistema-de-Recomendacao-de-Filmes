@@ -100,7 +100,7 @@ A avaliação, no script **avaliacaoModelo.py**, utiliza:
 │   ├── estilos.css
 │   └── requirements.txt
 └── poster/
-    └── sistema_de_recomendacao_de_filmes_banner.pdf
+    └── Sistema-de-Recomendacao-de-Filmes-Banner.pptx
 ```
 
 
