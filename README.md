@@ -165,7 +165,7 @@ python treinamento_modelo_filmes.py
 ### 3. Executar a Aplicação
 
 ```bash
-streamlit run app.py
+python -m streamlit run app.py
 ```
 
 
