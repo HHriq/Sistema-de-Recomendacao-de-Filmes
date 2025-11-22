@@ -159,6 +159,8 @@ Ao executar o comando, o terminal gerará um relatório estatístico contendo:
 
 3.  **Métricas Globais:** O resumo da assertividade do sistema.
 
+**Execute no terminal:**
+
 ```bash
 python avaliacaoModelo.py
 ```
