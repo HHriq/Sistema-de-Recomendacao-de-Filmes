@@ -159,6 +159,8 @@ Ao executar o comando, o terminal gerará um relatório estatístico contendo:
 
 3.  **Métricas Globais:** O resumo da assertividade do sistema.
 
+<br>
+
 **Execute no terminal:**
 
 ```bash
